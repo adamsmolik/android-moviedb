@@ -97,3 +97,4 @@ lint/tmp/
 /gradle/wrapper/gradle-wrapper.jar
 /.idea/.name
 /.idea/compiler.xml
+/.idea/inspectionProfiles/Project_Default.xml
