@@ -54,7 +54,7 @@ android {
 
 dependencies {
 	// Data module
-//	implementation project(project_module.data)
+	implementation project(project_module.data)
 
 	// Android X
 	implementation deps.android_x.ktx_core
