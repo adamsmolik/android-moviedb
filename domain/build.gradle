@@ -1,0 +1,51 @@
+plugins {
+	id 'com.android.library'
+	id 'kotlin-android'
+	id 'kotlin-android-extensions'
+	id 'kotlin-kapt'
+}
+
+android {
+	compileSdkVersion sdk.compile_sdk
+	buildToolsVersion "30.0.3"
+
+	defaultConfig {
+		minSdkVersion sdk.min_sdk
+		targetSdkVersion sdk.target_sdk
+		versionCode release.version_code
+		versionName release.version_name
+
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		consumerProguardFiles "consumer-rules.pro"
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			buildConfigField("String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+		}
+		debug {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			buildConfigField("String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	kotlinOptions {
+		jvmTarget = JavaVersion.VERSION_1_8.toString()
+	}
+}
+
+dependencies {
+	// Kotlin
+	api deps.kotlin_stdlib
+
+	// Coroutines
+	api deps.coroutines
+}

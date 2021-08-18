@@ -90,3 +90,10 @@ lint/tmp/
 
 # Mac
 .DS_Store
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/gradlew
+/gradlew.bat
+/gradle/wrapper/gradle-wrapper.jar
+/.idea/.name
+/.idea/compiler.xml

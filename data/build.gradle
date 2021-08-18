@@ -1,0 +1,69 @@
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+
+android {
+	compileSdkVersion sdk.compile_sdk
+	buildToolsVersion "30.0.3"
+
+	defaultConfig {
+		minSdkVersion sdk.min_sdk
+		targetSdkVersion sdk.target_sdk
+		versionCode release.version_code
+		versionName release.version_name
+
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		consumerProguardFiles "consumer-rules.pro"
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			buildConfigField("String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+		}
+		debug {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+			buildConfigField("String", "API_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	kotlinOptions {
+		jvmTarget = JavaVersion.VERSION_1_8.toString()
+	}
+}
+
+dependencies {
+	// Domain layer
+	api project(project_module.domain)
+
+	// Logging
+	api deps.timber
+
+	// Dependency injection
+	api deps.dagger.hilt
+	kapt deps.dagger.kapt
+
+	// Coroutines
+	api deps.coroutines
+
+	// JSON Serializer
+	api deps.serialization.moshi
+
+	// Networking
+	api deps.networking.retrofit.core
+	api deps.networking.retrofit.rxjava_adapter
+	api deps.networking.retrofit.moshi_converter
+
+	// Http client
+	api deps.networking.okhttp.client
+	api deps.networking.okhttp.logging
+}

@@ -1,0 +1,4 @@
+rootProject.name = "movieDB"
+include ':app'
+include ':domain'
+include ':data'
