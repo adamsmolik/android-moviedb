@@ -17,15 +17,19 @@ class MovieRepositoryImpl @Inject constructor(
 	private val movieMapper: MovieMapper
 ) : MovieRepository {
 
-	override suspend fun getMovies(): Either<Failure, List<Movie>> {
+	override suspend fun getMovies(): Result<List<Movie>> {
 		return when (networkHandler.isNetworkAvailable()) {
 			true -> try {
-				Either.Right(api.fetchPopularMovies().results.map { movieMapper.mapToDomain(it) })
+				Success(api.fetchPopularMovies().results.map { movieMapper.mapToDomain(it) })
 			} catch (exception: Throwable) {
-				Either.Left(Failure.ServerError)
+				Error(Failure.ServerError)
 			}
-			false -> Either.Left(Failure.NetworkConnection)
+			false -> Error(Failure.NetworkConnection)
 		}
 	}
 
 }
+
+typealias Result<V> = Either<Failure, V>
+fun <V> Success(v: V): Result<V> = Either.Right(v)
+fun <V> Error(f: Failure): Result<V> = Either.Left(f)
