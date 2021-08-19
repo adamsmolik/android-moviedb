@@ -19,5 +19,9 @@ data class MovieEntity(
 	@Json(name = "title")
 	val title: String,
 	@Json(name = "overview")
-	val overview: String
+	val overview: String,
+	@Json(name = "release_date")
+	val releaseDate: String,
+	@Json(name = "poster_path")
+	val posterPath: String
 )

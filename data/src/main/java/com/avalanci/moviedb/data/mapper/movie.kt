@@ -17,7 +17,8 @@ class MovieMapper @Inject constructor() : Mapper<Movie, Pair<ConfigurationEntity
 			movieEntity.id,
 			movieEntity.title,
 			movieEntity.overview,
-			configurationEntity.images.baseUrl + configurationEntity.images.posterSizes[3]
+			movieEntity.releaseDate,
+			configurationEntity.images.secureBaseUrl + configurationEntity.images.posterSizes[3] + movieEntity.posterPath
 		)
 	}
 
