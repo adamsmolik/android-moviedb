@@ -17,9 +17,9 @@ class MoviesViewModel @Inject constructor(
 ) : ViewModel() {
 
 	// Holds our view state which the UI collects via [state]
-	private val _state = MutableStateFlow(HomeViewState())
+	private val _state = MutableStateFlow(MoviesViewState())
 
-	val state: StateFlow<HomeViewState>
+	val state: StateFlow<MoviesViewState>
 		get() = _state
 
 	init {
@@ -33,7 +33,7 @@ class MoviesViewModel @Inject constructor(
 	}
 
 	private fun handleMovieList(movies: List<Movie>) {
-		_state.value = HomeViewState(movies)
+		_state.value = MoviesViewState(movies)
 	}
 
 }

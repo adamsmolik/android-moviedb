@@ -12,6 +12,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataSourceModule {
 
 	@Binds
-	abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
+	abstract fun bindMovieRepository(implementation: MovieRepositoryImpl): MovieRepository
 
 }
