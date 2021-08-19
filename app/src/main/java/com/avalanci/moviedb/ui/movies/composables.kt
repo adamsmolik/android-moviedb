@@ -82,7 +82,7 @@ fun MoviesList(
 @Composable
 fun MovieItem(movie: Movie) {
 	Card(
-		shape = RoundedCornerShape(8.dp),
+		shape = MaterialTheme.shapes.large,
 		backgroundColor = MaterialTheme.colors.surface,
 		modifier = Modifier.fillMaxWidth()
 	) {
