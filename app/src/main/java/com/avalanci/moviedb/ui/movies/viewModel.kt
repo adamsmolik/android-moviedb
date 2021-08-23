@@ -33,7 +33,10 @@ class MoviesViewModel @Inject constructor(
 	}
 
 	private fun handleMovieList(movies: List<Movie>) {
-		_state.value = MoviesViewState(movies)
+		_state.value = MoviesViewState(
+			progress = false,
+			movies = movies
+		)
 	}
 
 }
