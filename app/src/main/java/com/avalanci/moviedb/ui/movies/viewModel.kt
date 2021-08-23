@@ -6,6 +6,7 @@ import com.avalanci.moviedb.core.exception.Failure
 import com.avalanci.moviedb.core.interactor.UseCase
 import com.avalanci.moviedb.data.usecase.GetMovies
 import com.avalanci.moviedb.domain.model.Movie
+import com.avalanci.moviedb.ui.common.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,12 +30,15 @@ class MoviesViewModel @Inject constructor(
 	private fun loadMovies() = getMovies(UseCase.None(), viewModelScope) { it.fold(::handleFailure, ::handleMovieList) }
 
 	private fun handleFailure(failure: Failure) {
-		// TODO
+		_state.value = MoviesViewState(
+			state = State.EMPTY,
+			movies = emptyList()
+		)
 	}
 
 	private fun handleMovieList(movies: List<Movie>) {
 		_state.value = MoviesViewState(
-			progress = false,
+			state = State.CONTENT,
 			movies = movies
 		)
 	}

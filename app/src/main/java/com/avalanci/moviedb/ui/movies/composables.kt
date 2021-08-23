@@ -25,13 +25,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
+import com.avalanci.moviedb.R
 import com.avalanci.moviedb.domain.model.Movie
+import com.avalanci.moviedb.ui.common.Empty
 import com.avalanci.moviedb.ui.common.ListProgress
+import com.avalanci.moviedb.ui.common.State
 
 @Preview(showBackground = true)
 @Composable
@@ -41,14 +45,14 @@ fun Movies() {
 	val viewState = viewModel.state.collectAsState().value
 
 	MoviesContent(
-		viewState.progress,
+		viewState.state,
 		viewState.movies
 	)
 }
 
 @Composable
 fun MoviesContent(
-	progress: Boolean,
+	state: State,
 	movies: List<Movie>
 ) {
 	Scaffold(
@@ -61,14 +65,14 @@ fun MoviesContent(
 		}
 	) { innerPadding ->
 		val itemModifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)
-		when (progress) {
-			true -> ListProgress(innerPadding = innerPadding) { MovieProgressItem(itemModifier, it) }
-			false ->
-				MoviesList(
-					innerPadding,
-					itemModifier,
-					movies = movies
-				)
+		when (state) {
+			State.CONTENT -> MoviesList(
+				innerPadding,
+				itemModifier,
+				movies = movies
+			)
+			State.PROGRESS -> ListProgress(innerPadding = innerPadding) { MovieProgressItem(itemModifier, it) }
+			State.EMPTY -> Empty(string = stringResource(R.string.no_movies))
 		}
 	}
 }

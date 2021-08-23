@@ -1,3 +1,5 @@
 <resources>
 	<string name="app_name">movieDB</string>
+	<string name="no_movies">No Movies</string>
+	<string name="empty">Empty</string>
 </resources>
