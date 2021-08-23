@@ -15,9 +15,7 @@ fun ListProgress(
 	modifier: Modifier = Modifier,
 	itemContent: @Composable() (brush: Brush) -> Unit
 ) {
-	val scrollState = rememberScrollState()
-
-	Column(modifier = modifier.verticalScroll(scrollState)) {
+	Column(modifier = modifier.verticalScroll(rememberScrollState())) {
 		Spacer(modifier = Modifier.height(16.dp))
 		repeat(5) {
 			ShimmerAnimation(itemContent)
