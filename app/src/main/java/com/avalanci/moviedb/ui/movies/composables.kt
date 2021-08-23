@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.avalanci.moviedb.domain.model.Movie
-import com.avalanci.moviedb.ui.common.ShimmerAnimation
+import com.avalanci.moviedb.ui.common.ListProgress
 
 @Preview(showBackground = true)
 @Composable
@@ -62,33 +62,14 @@ fun MoviesContent(
 			.padding(innerPadding)
 			.padding(start = 16.dp, end = 16.dp)
 		when (progress) {
-			true -> Progress(
+			true -> ListProgress(
 				modifier
-			)
+			) { MovieProgressItem(it) }
 			false ->
 				MoviesList(
 					movies = movies,
 					modifier
 				)
-		}
-	}
-}
-
-@Composable
-fun Progress(
-	modifier: Modifier = Modifier
-) {
-	LazyColumn(modifier = modifier) {
-		item {
-			Spacer(modifier = Modifier.height(16.dp))
-		}
-		repeat(5) {
-			item {
-				ShimmerAnimation { brush: Brush ->
-					MovieProgressItem(brush)
-				}
-				Spacer(modifier = Modifier.height(16.dp))
-			}
 		}
 	}
 }
