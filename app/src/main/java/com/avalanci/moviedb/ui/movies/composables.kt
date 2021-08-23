@@ -1,8 +1,10 @@
 package com.avalanci.moviedb.ui.movies
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -58,49 +60,52 @@ fun MoviesContent(
 			)
 		}
 	) { innerPadding ->
-		val modifier = Modifier
-			.padding(innerPadding)
-			.padding(start = 16.dp, end = 16.dp)
+		val itemModifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)
 		when (progress) {
-			true -> ListProgress(
-				modifier
-			) { MovieProgressItem(it) }
+			true -> ListProgress(innerPadding = innerPadding) { MovieProgressItem(itemModifier, it) }
 			false ->
 				MoviesList(
-					movies = movies,
-					modifier
+					innerPadding,
+					itemModifier,
+					movies = movies
 				)
 		}
 	}
 }
 
 @Composable
+@SuppressLint("ModifierParameter")
 fun MoviesList(
-	movies: List<Movie>,
-	modifier: Modifier = Modifier
+	innerPadding: PaddingValues,
+	itemModifier: Modifier = Modifier,
+	movies: List<Movie>
 ) {
 	val scrollState = rememberLazyListState()
-
-	LazyColumn(modifier = modifier, state = scrollState) {
+	LazyColumn(contentPadding = innerPadding, state = scrollState) {
 		item {
-			Spacer(modifier = Modifier.height(16.dp))
+			Spacer(modifier = Modifier.height(8.dp))
 		}
 		items(movies) {
-			MovieItem(it)
-			Spacer(modifier = Modifier.height(16.dp))
+			MovieItem(itemModifier, it)
+		}
+		item {
+			Spacer(modifier = Modifier.height(8.dp))
 		}
 	}
 
 }
 
 @Composable
-fun MovieItem(movie: Movie) {
+fun MovieItem(
+	modifier: Modifier = Modifier,
+	movie: Movie
+) {
 	Card(
 		shape = MaterialTheme.shapes.large,
 		backgroundColor = MaterialTheme.colors.surface,
-		modifier = Modifier.fillMaxWidth()
+		modifier = modifier.fillMaxWidth()
 	) {
-		Row() {
+		Row {
 			Image(
 				painter = rememberImagePainter(data = movie.posterUrl),
 				contentDescription = null,
@@ -132,14 +137,15 @@ fun MovieItem(movie: Movie) {
 
 @Composable
 fun MovieProgressItem(
+	modifier: Modifier = Modifier,
 	brush: Brush
 ) {
 	Card(
 		shape = MaterialTheme.shapes.large,
 		backgroundColor = MaterialTheme.colors.surface,
-		modifier = Modifier.fillMaxWidth()
+		modifier = modifier.fillMaxWidth()
 	) {
-		Row() {
+		Row {
 			Spacer(
 				modifier = Modifier
 					.weight(2.0f)
