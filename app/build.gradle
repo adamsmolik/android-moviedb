@@ -9,7 +9,6 @@ plugins {
 
 android {
 	compileSdk sdk.compile_sdk
-	buildToolsVersion "30.0.3"
 
 	defaultConfig {
 		applicationId "com.avalanci.moviedb"
@@ -65,6 +64,8 @@ dependencies {
 	implementation deps.android_x.compose.material
 	implementation deps.android_x.compose.ui_tooling_preview
 	implementation deps.android_x.compose.viewmodel
+	implementation deps.android_x.compose.navigation
+	implementation deps.android_x.compose.hilt
 
 	// Dependency injection
 	implementation deps.dagger.hilt

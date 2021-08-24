@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -27,9 +28,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
 import com.avalanci.moviedb.R
 import com.avalanci.moviedb.domain.model.Movie
@@ -37,23 +36,25 @@ import com.avalanci.moviedb.ui.common.Empty
 import com.avalanci.moviedb.ui.common.ListProgress
 import com.avalanci.moviedb.ui.common.State
 
-@Preview(showBackground = true)
 @Composable
-fun Movies() {
-	val viewModel = viewModel(MoviesViewModel::class.java)
-
+fun Movies(
+	viewModel: MoviesViewModel,
+	onMovieClick: (Int) -> Unit
+) {
 	val viewState = viewModel.state.collectAsState().value
 
 	MoviesContent(
 		viewState.state,
-		viewState.movies
+		viewState.movies,
+		onMovieClick
 	)
 }
 
 @Composable
 fun MoviesContent(
 	state: State,
-	movies: List<Movie>
+	movies: List<Movie>,
+	onMovieClick: (Int) -> Unit
 ) {
 	Scaffold(
 		topBar = {
@@ -66,11 +67,7 @@ fun MoviesContent(
 	) { innerPadding ->
 		val itemModifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 8.dp)
 		when (state) {
-			State.CONTENT -> MoviesList(
-				innerPadding,
-				itemModifier,
-				movies = movies
-			)
+			State.CONTENT -> MoviesList(innerPadding, itemModifier, movies, onMovieClick)
 			State.PROGRESS -> ListProgress(innerPadding = innerPadding) { MovieProgressItem(itemModifier, it) }
 			State.EMPTY -> Empty(string = stringResource(R.string.no_movies))
 		}
@@ -82,7 +79,8 @@ fun MoviesContent(
 fun MoviesList(
 	innerPadding: PaddingValues,
 	itemModifier: Modifier = Modifier,
-	movies: List<Movie>
+	movies: List<Movie>,
+	onMovieClick: (Int) -> Unit
 ) {
 	val scrollState = rememberLazyListState()
 	LazyColumn(contentPadding = innerPadding, state = scrollState) {
@@ -90,7 +88,7 @@ fun MoviesList(
 			Spacer(modifier = Modifier.height(8.dp))
 		}
 		items(movies) {
-			MovieItem(itemModifier, it)
+			MovieItem(itemModifier, it, onMovieClick)
 		}
 		item {
 			Spacer(modifier = Modifier.height(8.dp))
@@ -99,15 +97,18 @@ fun MoviesList(
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MovieItem(
 	modifier: Modifier = Modifier,
-	movie: Movie
+	movie: Movie,
+	onMovieClick: (Int) -> Unit
 ) {
 	Card(
 		shape = MaterialTheme.shapes.large,
 		backgroundColor = MaterialTheme.colors.surface,
-		modifier = modifier.fillMaxWidth()
+		modifier = modifier.fillMaxWidth(),
+		onClick = { onMovieClick(movie.id) }
 	) {
 		Row {
 			Image(
