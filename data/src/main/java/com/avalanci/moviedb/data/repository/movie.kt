@@ -30,6 +30,7 @@ class MovieRepositoryImpl @Inject constructor(
 
 				right(movies.map { movieMapper.mapToDomain(Pair(configuration, it)) })
 			} catch (exception: Throwable) {
+				// TODO add error handler
 				left(Failure.ServerError)
 			}
 			false -> left(Failure.NetworkConnection)
@@ -44,6 +45,7 @@ class MovieRepositoryImpl @Inject constructor(
 
 				right(movieMapper.mapToDomain(Pair(configuration, movie)))
 			} catch (exception: Throwable) {
+				// TODO add error handler
 				left(Failure.ServerError)
 			}
 			false -> left(Failure.NetworkConnection)
@@ -58,6 +60,7 @@ class MovieRepositoryImpl @Inject constructor(
 
 				right(castList.map { castMapper.mapToDomain(Pair(configuration, it)) })
 			} catch (exception: Throwable) {
+				// TODO add error handler
 				left(Failure.ServerError)
 			}
 			false -> left(Failure.NetworkConnection)
