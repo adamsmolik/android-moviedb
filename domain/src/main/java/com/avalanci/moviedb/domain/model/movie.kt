@@ -1,13 +1,17 @@
 package com.avalanci.moviedb.domain.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class Movie(
 	val id: Int,
 	val title: String,
-	val overview: String,
+	val overview: String?,
 	val releaseDate: String,
 	val posterUrl: String
-) : Parcelable
+)
+
+data class Cast(
+	val id: Int,
+	val name: String,
+	val character: String,
+	val imageUrl: String
+)

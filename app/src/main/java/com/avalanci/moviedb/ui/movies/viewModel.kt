@@ -3,6 +3,7 @@ package com.avalanci.moviedb.ui.movies
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.avalanci.moviedb.core.exception.Failure
+import com.avalanci.moviedb.core.functional.fold
 import com.avalanci.moviedb.core.interactor.UseCase
 import com.avalanci.moviedb.data.usecase.GetMovies
 import com.avalanci.moviedb.domain.model.Movie

@@ -19,9 +19,27 @@ data class MovieEntity(
 	@Json(name = "title")
 	val title: String,
 	@Json(name = "overview")
-	val overview: String,
+	val overview: String?,
 	@Json(name = "release_date")
 	val releaseDate: String,
 	@Json(name = "poster_path")
 	val posterPath: String
+)
+
+data class CreditsEntity(
+	val id: Int,
+	val cast: List<CastEntity>
+)
+
+data class CastEntity(
+	@Json(name = "cast_id")
+	val castId: Int,
+	val character: String,
+	@Json(name = "credit_id")
+	val creditId: String,
+	val gender: Int?,
+	val name: String,
+	val order: Int,
+	@Json(name = "profile_path")
+	val profilePath: String?
 )

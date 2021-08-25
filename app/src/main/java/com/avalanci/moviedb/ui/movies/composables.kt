@@ -129,7 +129,7 @@ fun MovieItem(
 				Text(movie.releaseDate, style = MaterialTheme.typography.caption, overflow = TextOverflow.Ellipsis)
 				Spacer(modifier = Modifier.height(4.dp))
 				Text(
-					movie.overview,
+					movie.overview ?: "",
 					style = MaterialTheme.typography.caption,
 					maxLines = 8,
 					overflow = TextOverflow.Ellipsis
