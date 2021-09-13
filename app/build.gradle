@@ -89,17 +89,8 @@ dependencies {
 	// Coil
 	implementation deps.coil
 
-	// Navigation
-//	implementation deps.android_x.navigation.fragment
-//	implementation deps.android_x.navigation.fragment_ktx
-//	implementation deps.android_x.navigation.ui
-//	implementation deps.android_x.navigation.ui_ktx
-
-	// Mobius
-//	implementation deps.mobius.core
-//	implementation deps.mobius.rx
-//	implementation deps.mobius.android
-//	implementation deps.mobius.extras
+	// YouTube Player
+	implementation deps.youtube_player
 
 	// Testing
 	testImplementation testing_deps.junit

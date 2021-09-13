@@ -3,6 +3,7 @@ package com.avalanci.moviedb.data.mapper
 import com.avalanci.moviedb.data.entity.CastEntity
 import com.avalanci.moviedb.data.entity.ConfigurationEntity
 import com.avalanci.moviedb.data.entity.MovieEntity
+import com.avalanci.moviedb.data.entity.VideosEntity
 import com.avalanci.moviedb.domain.model.Cast
 import com.avalanci.moviedb.domain.model.Movie
 import javax.inject.Inject
@@ -20,7 +21,36 @@ class MovieMapper @Inject constructor() : Mapper<Movie, Pair<ConfigurationEntity
 			movieEntity.title,
 			movieEntity.overview,
 			movieEntity.releaseDate,
-			configurationEntity.images.secureBaseUrl + configurationEntity.images.posterSizes[3] + movieEntity.posterPath
+			configurationEntity.images.secureBaseUrl + configurationEntity.images.posterSizes[5] + movieEntity.posterPath,
+			null
+		)
+	}
+
+	override fun mapToEntity(domain: Movie) = throw UnsupportedMappingException()
+
+}
+
+@Singleton
+class MovieDetailMapper @Inject constructor() : Mapper<Movie, Triple<ConfigurationEntity, MovieEntity, VideosEntity>> {
+
+	override fun mapToDomain(entity: Triple<ConfigurationEntity, MovieEntity, VideosEntity>): Movie {
+		val configurationEntity = entity.first
+		val movieEntity = entity.second
+		val videosEntity = entity.third
+
+		val videoId = videosEntity.results
+			?.filter { it.site == "YouTube" }
+			?.filter { it.type == "Trailer" }
+			?.map { it.key }
+			?.firstOrNull()
+
+		return Movie(
+			movieEntity.id,
+			movieEntity.title,
+			movieEntity.overview,
+			movieEntity.releaseDate,
+			configurationEntity.images.secureBaseUrl + configurationEntity.images.posterSizes[5] + movieEntity.posterPath,
+			videoId
 		)
 	}
 

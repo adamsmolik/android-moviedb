@@ -6,6 +6,7 @@ import com.avalanci.moviedb.core.functional.left
 import com.avalanci.moviedb.core.functional.right
 import com.avalanci.moviedb.core.platform.NetworkHandler
 import com.avalanci.moviedb.data.mapper.CastMapper
+import com.avalanci.moviedb.data.mapper.MovieDetailMapper
 import com.avalanci.moviedb.data.mapper.MovieMapper
 import com.avalanci.moviedb.data.remote.MovieApi
 import com.avalanci.moviedb.domain.model.Cast
@@ -19,6 +20,7 @@ class MovieRepositoryImpl @Inject constructor(
 	private val networkHandler: NetworkHandler,
 	private val api: MovieApi,
 	private val movieMapper: MovieMapper,
+	private val movieDetailMapper: MovieDetailMapper,
 	private val castMapper: CastMapper
 ) : MovieRepository {
 
@@ -42,8 +44,9 @@ class MovieRepositoryImpl @Inject constructor(
 			true -> try {
 				val configuration = api.fetchConfiguration()
 				val movie = api.fetchMovie(movieId)
+				val videos = api.fetchVideos(movieId)
 
-				right(movieMapper.mapToDomain(Pair(configuration, movie)))
+				right(movieDetailMapper.mapToDomain(Triple(configuration, movie, videos)))
 			} catch (exception: Throwable) {
 				// TODO add error handler
 				left(Failure.ServerError)

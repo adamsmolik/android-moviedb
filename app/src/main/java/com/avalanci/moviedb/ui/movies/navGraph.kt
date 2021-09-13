@@ -7,14 +7,17 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import com.avalanci.moviedb.ui.Screen
 import com.avalanci.moviedb.ui.movies.detail.MovieDetail
 import com.avalanci.moviedb.ui.movies.detail.MovieDetailViewModel
 
+
+const val movies = "movies"
+const val movieIdArg = "movie_id"
+
 @Composable
 fun MoviesNavHost(navController: NavHostController) {
-	NavHost(navController = navController, startDestination = Screen.Movies.name) {
-		composable(Screen.Movies.name) {
+	NavHost(navController = navController, startDestination = movies) {
+		composable(movies) {
 			val viewModel = hiltViewModel<MoviesViewModel>()
 			Movies(
 				viewModel = viewModel,
@@ -25,10 +28,8 @@ fun MoviesNavHost(navController: NavHostController) {
 		}
 
 		// Movie detail
-		val moviesName = Screen.Movies.name
-		val movieIdArg = "movie_id"
 		composable(
-			route = "$moviesName/{$movieIdArg}",
+			route = "$movies/{$movieIdArg}",
 			arguments = listOf(
 				navArgument(movieIdArg) {
 					type = NavType.IntType
@@ -36,12 +37,13 @@ fun MoviesNavHost(navController: NavHostController) {
 			)
 		) {
 			val viewModel = hiltViewModel<MovieDetailViewModel>()
-			MovieDetail(viewModel)
+			MovieDetail(viewModel) {
+				navController.navigateUp()
+			}
 		}
 	}
 }
 
 private fun navigateToMovieDetail(navController: NavHostController, id: Int) {
-	val moviesName = Screen.Movies.name
-	navController.navigate("$moviesName/$id")
+	navController.navigate("$movies/$id")
 }
